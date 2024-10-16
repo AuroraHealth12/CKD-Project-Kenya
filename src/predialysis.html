@@ -1,0 +1,482 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <script src="../js/constants.js"></script>
+  <script src="../js/jquery-3.7.1.min.js"></script>
+  <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+  <!--<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />-->
+  <link href="../css/flowbite.min.css" rel="stylesheet" />
+  <script src="../js/js.cookie.min.js"></script>
+  <script src="../js/sweetalert2.all.min.js"></script>
+  <link href="../css//sweetalert2.min.css" rel="stylesheet">
+  <style>
+      .popupbutton{
+             border: solid 1px black; 
+             border-radius:10px;
+             color:black;
+             padding:10px;
+             width:300px
+  </style>
+</head>
+<body>
+    
+    <div class="px-8 w-[80%] mt-4 mx-auto " style="border-bottom:solid 1px blue; padding-bottom:10px">
+        <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+            <div class="sm:col-span-4">
+                <button id="bt_search" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    &nbsp;Search Patient
+                </button>
+                <button id="bt_info" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    &nbsp;New Patient
+                </button>
+                <!--
+                <button id="bt_dialysis" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-gray-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
+                    &nbsp;Pre-Dialysis Assessment
+                </button>-->
+            </div>
+           <div class="sm:col-span-4" style="text-align:right">
+                <span id="user">x</span>
+                <button id="bt_exit" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fefefe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5M19.8 12H9M10 3H4v18h6"/></svg>
+                </button>
+               
+               
+            </div>
+    </div>
+    <br>
+    <div class="px-8 w-[80%] mx-auto bg-white rounded-xl shadow-lg pb-5"  style="background-color:#aed1ef">
+        <section class="dark:bg-gray-900 w-[100%]">
+          <div class="px-4 mx-auto max-w-[100%]">
+            <div class="grid sm:grid-cols-8">
+                <div class="sm:col-span-4">
+                    <label for="name" class="block text-sm font-medium text-gray-500 dark:text-white">Patient name:</label>
+                    <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white" id="patient_name"></h1>
+                </div>
+               
+                <div class="sm:col-span-4" style="text-align:right">
+                    <label for="name" class="block text-sm font-medium text-gray-500 dark:text-white">Patient number:</label>
+                    <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white" id="patient_id"></h1> 
+                </div>
+
+            </div>
+          </div>    
+        </section>
+      </div>
+      <br>
+      <div class="px-8 pb-5 w-[80%] mx-auto bg-white rounded-xl shadow-lg">
+        <section class="bg-white dark:bg-gray-900 w-[100%]">
+          <div class="px-4 mx-auto max-w-[100%]">
+            <div class="grid sm:grid-cols-8">
+                <div class="sm:col-span-2">
+                    <label for="session_date" class="block text-sm font-medium text-gray-500 dark:text-white">Date:</label>
+                    <div class="relative max-w-sm">
+                      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                          </svg>
+                      </div>
+                      <!--<input id="datepicker-autohide" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                        --><input id="datepicker-custom" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+
+                    </div>
+                </div>
+               
+                <div class="sm:col-span-2">
+                    <label for="session_hour" class="block text-sm font-medium text-gray-500 dark:text-white">Time:</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input type="time" id="time" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
+                    </div>
+                </div>
+              
+            </div>
+          </div>    
+        </section>
+      </div>
+      
+      
+    
+      <div class="px-8 w-[80%] mt-4 mx-auto bg-white rounded-xl shadow-lg">
+        <div class="px-4 mx-auto max-w-[100%] lg:py-8">
+            <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+                <div class="sm:col-span-8 mt-1">
+                    <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white">Quick history</h1>
+                </div>
+                <div class="sm:col-span-4">
+                        
+                        <label for="recent_transfusion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Had any recent transfusion?</label>
+                        <span> 
+                            <input id="recent_transfusion_no" type="radio" value="NO" name="recent_transfusion" class="sp_no w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="recent_transfusion_no" class="text-sm font-medium text-gray-900 dark:text-gray-300">No</label>&nbsp;&nbsp;
+                            <input id="recent_transfusion_yes" type="radio" value="YES" name="recent_transfusion" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="recent_transfusion_yes" class="text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>&nbsp;
+                        </span>
+                        <span id="sp_recent_transfusion" style="display:none">
+                            <label for="recent_transfusion_when" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style="display:inline" >When?</label>
+                            <input type="text" name="recent_transfusion_when" id="recent_transfusion_when" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" style="display:inline" required="">
+                        </span>
+                    </div>
+               
+                <div class="sm:col-span-4">
+                    <label for="dialysed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dialysed in any other unit?</label>
+                    <input id="dialysed_other_unit_no" type="radio" value="NO" name="dialysed_other_unit" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="dialysed_other_unit_no" class="text-sm font-medium text-gray-900 dark:text-gray-300">No</label>&nbsp;&nbsp;
+                    <input id="dialysed_other_unit_yes" type="radio" value="YES" name="dialysed_other_unit" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="dialysed_other_unit_yes" class="text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>&nbsp;
+                    <span id="sp_dialysed_other_unit" style="display:none">
+                        <label for="dialysed_other_unit_where" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style="display:inline-block" >Where?</label>
+                        <input type="text" name="dialysed_other_unit_where" id="dialysed_other_unit_where" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" style="display:inline-block" required="">
+                    </span>
+                </div>
+                <div class="sm:col-span-8">
+                        <label for="dialysed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">General condition of the patient</label>
+                        <input id="general_condition_good" type="radio" value="GOOD" name="general_condition" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="general_condition_good" class="text-sm font-medium text-gray-900 dark:text-gray-300">Good</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="general_condition_fair" type="radio" value="FAIR" name="general_condition" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="dgeneral_condition_fair" class="text-sm font-medium text-gray-900 dark:text-gray-300">Fair</label>&nbsp;&nbsp;&nbsp;
+                        <input id="general_condition_serious" type="radio" value="GUARDED/SERIOUS" name="general_condition" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="dgeneral_condition_serious" class="text-sm font-medium text-gray-900 dark:text-gray-300">Guarded/Serious</label>&nbsp;&nbsp;&nbsp;
+                        <input id="general_condition_critical" type="radio" value="GUARDED/SERIOUS" name="general_condition" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="dgeneral_condition_critical" class="text-sm font-medium text-gray-900 dark:text-gray-300">Critical</label>&nbsp;&nbsp;
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+
+      <div class="px-8 w-[80%] mt-4 mx-auto bg-white rounded-xl shadow-lg">
+        <div class="px-4 mx-auto max-w-[100%] lg:py-8">
+            <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+                <div class="sm:col-span-8">
+                    <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white">Pre-Dialysis Assessment</h1>
+                </div>
+                <div class="sm:col-span-8" style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">A. Neuro System</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <input id="oriented" type="radio" value="ORIENTED" name="neuro" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="oriented" class="text-sm font-medium text-gray-900 dark:text-gray-300">Oriented</label>&nbsp;&nbsp;
+                    <input id="confused" type="radio" value="YES" name="neuro" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="confused" class="text-sm font-medium text-gray-900 dark:text-gray-300">Confused</label>&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    <span id="sp_nuero_chart">
+                        <label for="neuro_chart" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style="display:inline-block" >Score as per neuro chart</label>
+                        <input type="text" name="neuro_chart" id="neuro_chart" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" style="display:inline-block" required="">
+                    </span>
+                </div>
+
+                <div class="sm:col-span-8" style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">B. Pain assessment</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="pain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is there pain?</label>
+                    <input id="pain_no" type="radio" value="NO" name="pain_assessment" class="sp_pain_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="pain_no" class="text-sm font-medium text-gray-900 dark:text-gray-300">No</label>&nbsp;&nbsp;
+                    <input id="pain_yes" type="radio" value="YES" name="pain_assessment" class="sp_pain_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="pain_yes" class="text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    
+                    <span id="sp_pain"  style="display:none">
+                        <label for="pain_intensity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pain intensity scale</label>
+                    
+                        <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white sm:flex dark:text-white">
+                            <li>
+                                <input type="radio" id="pain_1" name="pain" value="1" class="hidden peer pain" required />
+                                <label for="pain_1" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">1</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_2" name="pain" value="2" class="hidden peer pain" required />
+                                <label for="pain_2" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-white-500 peer-checked:border-blue-600 peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">2</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_3" name="pain" value="3" class="hidden peer pain" required />
+                                <label for="pain_3" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">3</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_4" name="pain" value="4" class="hidden peer pain" required />
+                                <label for="pain_4" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">4</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_5" name="pain" value="5" class="hidden peer pain" required />
+                                <label for="pain_5" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">5</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_6" name="pain" value="6" class="hidden peer pain" required />
+                                <label for="pain_6" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">6</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_7" name="pain" value="7" class="hidden peer pain" required />
+                                <label for="pain_7" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">7</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_8" name="pain" value="8" class="hidden peer pain" required />
+                                <label for="pain_8" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">8</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_9" name="pain" value="9" class="hidden peer pain" required />
+                                <label for="pain_9" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">9</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio" id="pain_10" name="pain" value="10" class="hidden peer pain" required />
+                                <label for="pain_10" class="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border border-blue-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600  peer-checked:text-white  peer-checked:bg-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                                    <div class="block">
+                                        <div class="w-full text-lg font-semibold">10</div>
+                                    </div>
+                                   
+                                </label>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="sm:col-span-8" style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">C. Risk for fall assessment</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="fall" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Risk of fall?</label>
+                    
+                    <input id="fall_yes" type="radio" value="YES" name="fall" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fall_yes" class="text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>&nbsp;&nbsp;
+                    <input id="fall_no" type="radio" value="NO" name="fall" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fall_no" class="text-sm font-medium text-gray-900 dark:text-gray-300">No</label>&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-8"  style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">D. Repiratory System</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="respiratory" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Breathing rhythm</label>
+                    <input id="respiratory_regular" type="radio" value="REGULAR" name="respiratory" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="respiratory_regular" class="text-sm font-medium text-gray-900 dark:text-gray-300">Regular</label>&nbsp;&nbsp;
+                    <input id="respiratory_irregular" type="radio" value="IRREGULAR" name="respiratory" class="sp_no w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="respiratory_normal" class="text-sm font-medium text-gray-900 dark:text-gray-300">Irregular</label>&nbsp;&nbsp;
+                    <input id="respiratory_abnorml" type="radio" value="ABNORMAL" name="respiratory" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="respiratory_abnormal" class="text-sm font-medium text-gray-900 dark:text-gray-300">Abnormal</label>&nbsp;&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    <span id="sp_respiratory" style="display:none">
+                        <h2>Please explain</h2>
+                        <!--<label for="abnormal_explanation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style="display:inline-block" >Please explain</label>-->
+                        <input type="text" name="abnormal_explanation" id="abnormal_explanation" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" style="width:100%" required="">
+                    </span>
+                </div>
+                
+                <div class="sm:col-span-8" style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">E. Air Entry</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="air_entry" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Air entry</label>
+                    <input id="air_entry_normal" type="radio" value="NORMAL" name="air_entry" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="air_entry_normal" class="text-sm font-medium text-gray-900 dark:text-gray-300">Normal</label>&nbsp;&nbsp;
+                    <input id="air_entry_abnormal" type="radio" value="ABNORMAL" name="air_entry" class="sp_no w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="air_entry_abnormal" class="text-sm font-medium text-gray-900 dark:text-gray-300">Abnormal</label>&nbsp;&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    <label for="chest" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chest Auscultation</label>
+                    <input id="chest_clear" type="radio" value="CLEAR" name="chest" class="w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="chest_clear" class="text-sm font-medium text-gray-900 dark:text-gray-300">Chest clear</label>&nbsp;&nbsp;
+                    <input id="chest_rales" type="radio" value="RALES" name="chest" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="air_entry_abnormal" class="text-sm font-medium text-gray-900 dark:text-gray-300">Rales</label>&nbsp;&nbsp;
+                    <input id="chest_crepitations" type="radio" value="CREPITATIONS" name="chest" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="chest_crepitations" class="text-sm font-medium text-gray-900 dark:text-gray-300">Crepitations</label>&nbsp;&nbsp;
+                   
+                </div>
+
+
+                <div class="sm:col-span-8"  style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">F. Cardiac System</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="edema" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Edema</label>
+                    <input id="edema_no" type="radio" value="NO" name="edema" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="edema_no" class="text-sm font-medium text-gray-900 dark:text-gray-300">No</label>&nbsp;&nbsp;
+                    <input id="edema_yes" type="radio" value="YES" name="edema" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="edema_yes" class="text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>&nbsp;&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    <span id="sp_edema" style="display:none">
+                        <h2>Please specify</h2>
+                        <!--<label for="abnormal_explanation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style="display:inline-block" >Please explain</label>-->
+                        <input type="text" name="edema_explanation" id="edema_explanation" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" style="width:100%" required="">
+                    </span>
+                </div>
+
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="chest_pain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chest Pain</label>
+                    <input id="chest_pain_no" type="radio" value="NO" name="chest_pain" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="chest_pain_no" class="text-sm font-medium text-gray-900 dark:text-gray-300">No</label>&nbsp;&nbsp;
+                    <input id="chest_pain_yes" type="radio" value="YES" name="chest_pain" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="chest_pain_yes" class="text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>&nbsp;&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    <span id="sp_chest_pain" style="display:none">
+                        <h2>Please specify</h2>
+                        <!--<label for="abnormal_explanation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" style="display:inline-block" >Please explain</label>-->
+                        <input type="text" name="chest_pain_explanation" id="chest_pain_explanation" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" style="width:100%" required="">
+                    </span>
+                </div>
+
+                <div class="sm:col-span-8"  style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">G. GIT</h2>
+                </div>
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                    <label for="appetite" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Appetite</label>
+                    <input id="appetite_good" type="radio" value="GOOD" name="appetite" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="appetite_good" class="text-sm font-medium text-gray-900 dark:text-gray-300">Good</label>&nbsp;&nbsp;
+                    <input id="appetite_moderate" type="radio" value="MODERATE" name="appetite" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="appetite_moderate" class="text-sm font-medium text-gray-900 dark:text-gray-300">Moderate</label>&nbsp;&nbsp;
+                    <input id="appetite_poor" type="radio" value="POOR" name="appetite" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="appetite_poor" class="text-sm font-medium text-gray-900 dark:text-gray-300">Poor</label>&nbsp;&nbsp;
+                   
+                </div>
+                <div class="sm:col-span-4">
+                    <label for="diet" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diet Type</label>
+                    <input id="diet_restrictive" type="radio" value="RESTRICTIVE" name="diet" class="sp_no w-4 h-4 text-sm text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="diet_restrictive" class="text-sm font-medium text-gray-900 dark:text-gray-300">Restrictive</label>&nbsp;&nbsp;
+                    <input id="diet_normal" type="radio" value="NORMAL" name="diet" class="sp_yes w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="diet_normal" class="text-sm font-medium text-gray-900 dark:text-gray-300">Normal</label>&nbsp;&nbsp;
+                    
+                </div>
+
+                <div class="sm:col-span-8" style="border-bottom:solid 1px black">
+                    <h2 class="mb-0 text-l text-gray-900 dark:text-white">H. Drugs taken before dialysis</h2>
+                </div>
+               
+                
+                <div class="sm:col-span-1"></div>
+                <div class="sm:col-span-3">
+                
+                             <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white sm:flex dark:text-white">
+                                    <li class="w-full">
+                                        <div class="flex items-center ps-3">
+                                            <input id="drugs_hypertensive" type="checkbox" value="" class="w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600">&nbsp;
+                                            <label for="drugs_hypertensive" class="w-full ml-0.5 py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hypertensive</label>
+                                        </div>
+                                    </li>
+                                    <li class="w-full">
+                                        <div class="flex items-center ps-3">
+                                            <input id="drugs_hypoglycemics" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">&nbsp;
+                                            <label for="drugs_hypoglycemics" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hypoglycemics</label>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                
+               
+                </div>
+                <div class="sm:col-span-4">
+                   
+                </div>
+               
+
+
+            </div>
+            <div class="px-4 mx-auto max-w-[100%] lg:py-8">
+                <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+                    <div class="sm:col-span-4">
+                        <label for="ward" class="block text-sm font-medium text-gray-900 dark:text-white">Ward</label>
+                        <input type="text" name="ward" id="ward" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label for="doctor" class="block text-sm font-medium text-gray-900 dark:text-white">Doctor/Dept</label>
+                        <input type="text" name="doctor" id="doctor" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                </div>
+            </div>
+             <div class="px-8 w-[100%] mt-4 mx-auto "  style="border-top:solid 1px blue; padding-top:10px; text-align:center; margin-bottom:10px">
+                    <button id="bt_save" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2-2.4-3.5-4.4-3.5h-1.2c-.7-3-3.2-5.2-6.2-5.6-3-.3-5.9 1.3-7.3 4-1.2 2.5-1 6.5.5 8.8m8.7-1.6V21"/><path d="M16 16l-4-4-4 4"/></svg>
+                         &nbsp;Save
+                    </button>
+                    <button id="bt_download" type="button" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2-2.4-3.5-4.4-3.5h-1.2c-.7-3-3.2-5.2-6.2-5.6-3-.3-5.9 1.3-7.3 4-1.2 2.5-1 6.5.5 8.8M12 19.8V12M16 17l-4 4-4-4"/></svg>
+                         &nbsp;Download
+                    </button>
+                   
+                 </div>
+        </div>
+        </div>
+
+      
+    <!--<button onclick="view_pain()">pain</button>-->
+
+<br>
+<br>
+<br>
+    </div>
+<script src="../js/predialysis.js"></script>
+</body>
+
+<!--<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>-->
+</html>

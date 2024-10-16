@@ -1,0 +1,555 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <script src="../js/constants.js"></script>
+  <script src="../js/jquery-3.7.1.min.js"></script>
+  <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+  <!--<link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />-->
+  <link href="../css/flowbite.min.css" rel="stylesheet" />
+  <script src="../js/js.cookie.min.js"></script>
+  <script src="../js/sweetalert2.all.min.js"></script>
+  <link href="../css//sweetalert2.min.css" rel="stylesheet">
+</head>
+<body style="display:none">
+    
+    <div class="px-8 w-[80%] mt-4 mx-auto " style="border-bottom:solid 1px blue; padding-bottom:10px">
+         <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+            <div class="sm:col-span-4">
+                <button id="bt_search" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    &nbsp;Search Patient
+                </button>
+                <button id="bt_info" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    &nbsp;New Patient
+                </button>
+                <!--
+                <button id="bt_dialysis" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-gray-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
+                    &nbsp;Pre-Dialysis Assessment
+                </button>-->
+            </div>
+           <div class="sm:col-span-4" style="text-align:right">
+                <span id="user">x</span>
+                <button id="bt_exit" type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-red-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fefefe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5M19.8 12H9M10 3H4v18h6"/></svg>
+                </button>
+               
+               
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="px-8 w-[80%] mx-auto bg-white rounded-xl shadow-lg pb-5"  style="background-color:#aed1ef">
+        <section class="dark:bg-gray-900 w-[100%]">
+          <div class="px-4 mx-auto max-w-[100%]">
+            <div class="grid sm:grid-cols-8">
+                <div class="sm:col-span-4">
+                    <label for="name" class="block text-sm font-medium text-gray-500 dark:text-white">Patient name:</label>
+                    <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white" id="patient_name"></h1>
+                </div>
+               
+                <div class="sm:col-span-4" style="text-align:right">
+                    <label for="name" class="block text-sm font-medium text-gray-500 dark:text-white">Patient number:</label>
+                    <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white" id="patient_id"></h1> 
+                </div>
+
+            </div>
+          </div>    
+        </section>
+      </div>
+      <br>
+      <div class="px-8 pb-5 w-[80%] mx-auto bg-white rounded-xl shadow-lg hidden"  id="new_dialysis">
+        <section class="bg-white dark:bg-gray-900 w-[100%]">
+          <div class="px-4 mx-auto max-w-[100%]">
+            <div class="grid sm:grid-cols-8">
+                <div class="sm:col-span-2">
+                    <label for="session_date" class="block text-sm font-medium text-gray-500 dark:text-white">Date:</label>
+                    <div class="relative max-w-sm">
+                      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                          </svg>
+                      </div>
+                      <!--<input id="datepicker-autohide" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                        --><input id="datepicker-custom" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+
+                    </div>
+                </div>
+               
+                <div class="sm:col-span-2">
+                    <label for="session_hour" class="block text-sm font-medium text-gray-500 dark:text-white">Time:</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input type="time" id="time" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
+                    </div>
+                </div>
+              
+            </div>
+          </div>    
+        
+            <div class="px-4 mx-auto max-w-[100%] lg:py-8">
+                <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+                    <div class="sm:col-span-1">
+                        <label for="start_weight" class="block text-sm font-medium text-gray-900 dark:text-white">Start weight</label>
+                        <input type="number" name="start_weight" id="start_weight" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="start_temp" class="block text-sm font-medium text-gray-900 dark:text-white">Temperature</label>
+                        <input type="number" name="start_temp" id="start_temp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="start_pulse" class="block text-sm font-medium text-gray-900 dark:text-white">Pulse</label>
+                        <input type="number" name="start_pulse" id="start_pulse" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="start_bp" class="block text-sm font-medium text-gray-900 dark:text-white">BP Lying</label>
+                        <input type="text" name="start_bp" id="start_bp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="start_spo" class="block text-sm font-medium text-gray-900 dark:text-white">SpO</label>
+                        <select id="start_spo" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="start_resp" class="block text-sm font-medium text-gray-900 dark:text-white">Resp. rate</label>
+                        <input type="text" name="start_resp" id="start_resp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                </div>
+            </div>
+          <div class="px-4 mx-auto max-w-[100%]">
+                <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+                    <div class="sm:col-span-1">
+                        <label for="no_hours" class="block text-sm font-medium text-gray-900 dark:text-white">No. of hours</label>
+                        <input type="number" name="no_hours" id="no_hours" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="proposed_uf" class="block text-sm font-medium text-gray-900 dark:text-white">Proposed UF</label>
+                        <input type="number" name="proposed_uf" id="proposed_uf" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="access" class="block text-sm font-medium text-gray-900 dark:text-white">Access</label>
+                        <select id="access" class="bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option value="FISTULA">Fistula</option>
+                                <option value="GRAFT">Graft</option>
+                                <option value="CATHETER">Catheter</option>
+                            </select>
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label for="dialyser" class="block text-sm font-medium text-gray-900 dark:text-white">Dialyser</label>
+                        <input type="text" name="dialyser" id="dialyser" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    
+                    <div class="sm:col-span-4">
+                        <label for="dialysate" class="block text-sm font-medium text-gray-900 dark:text-white">Dialysate</label>
+                        <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white sm:flex dark:text-white">
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="bathk" type="checkbox" value="" class="w-4 h-4 mr-1 text-blue-600 bg-gray-100 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600">&nbsp;
+                                    <label for="bathk" class="w-full ml-0.5 py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bath K+</label>
+                                </div>
+                            </li>
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="hepatinld" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">&nbsp;
+                                    <label for="hepatinld" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hepatin LD</label>
+                                </div>
+                            </li>
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="hepatinmd" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">&nbsp;
+                                    <label for="hepatinmd" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hepatin MD</label>
+                                </div>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    
+                   
+                </div>
+            </div>
+        
+            <div class="px-4 mx-auto max-w-[100%]">
+                <div class="grid gap-3 sm:grid-cols-8 sm:gap-6">
+                    <div class="sm:col-span-8">
+                        <label for="start_nurse" class="block text-sm font-medium text-gray-900 dark:text-white">Nurse commencing dialysis</label>
+                        <input type="text" name="start_nurse" id="start_nurse" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                
+                </div>
+            </div>
+            
+        </section>
+        <div class="px-8 w-[100%] mt-4 mx-auto "  style="border-top:solid 1px blue; padding-top:10px; text-align:center; margin-bottom:10px">
+      
+                        <button id="bt_save" type="button" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M12 18v-6M9 15h6"/></svg> &nbsp;
+                            Save
+                        </button>
+                    </div>
+      </div> 
+      
+      
+      
+      
+      
+      
+      <div class="px-8 w-[80%] mt-4 mx-auto bg-white rounded-xl shadow-lg" id="existing_dialysis">
+        <section class="bg-white dark:bg-gray-900 w-[100%]">
+            <div class="px-4 mx-auto max-w-[100%] lg:py-8">
+                <div class="grid gap-4 sm:grid-cols-8 sm:gap-6">
+                     <div class="sm:col-span-8">
+                        <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white">Dialysis information</h1>
+                     </div>
+                     <div class="sm:col-span-8">
+                        <div class="relative overflow-x-auto">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <tbody>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-6">
+                                                Predialysis:&nbsp;<strong id="info_predialysis"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Date:&nbsp;<strong id="info_date"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Start weight:&nbsp;<strong id="info_weight"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Temperature:&nbsp;<strong id="info_temperature"></strong>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-6">
+                                                Pulse:&nbsp;<strong id="info_pulse"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                BP lying:&nbsp;<strong id="info_bp"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                SpO:&nbsp;<strong id="info_spo"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Resp.rate:&nbsp;<strong id="info_resp"></strong>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-6">
+                                                Proposed hours:&nbsp;<strong id="info_hours"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Proposed UF:&nbsp;<strong id="info_uf"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Access:&nbsp;<strong id="info_access"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Dialyser:&nbsp;<strong id="info_dialyser"></strong>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-6">
+                                                Bath K+:&nbsp;<strong id="info_bathk"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Hepatin LD:&nbsp;<strong id="info_hepatinld"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                Hepatin MD:&nbsp;<strong id="info_hepatinmd"></strong>
+                                            </td>
+                                            <td class="px-6">
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="px-6" colspan="4">
+                                                Nurse commencing dialysis:&nbsp;<strong id="info_nurse"></strong>
+                                            </td>
+                                        </tr>
+                                    
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                     
+                </div>
+            </div>
+        </section>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      <div class="px-8 w-[80%] mt-4 mx-auto bg-white rounded-xl shadow-lg hidden" id="intradialysis">
+        <section class="bg-white dark:bg-gray-900 w-[100%]">
+            <div class="px-4 mx-auto max-w-[100%] lg:py-8">
+                <div class="grid gap-4 sm:grid-cols-8 sm:gap-6">
+                     <div class="sm:col-span-8 mt-1">
+                        <h1 class="mb-0 text-xl font-bold text-gray-900 dark:text-white">Intradialysis</h1>
+                     </div>
+                     
+                     
+                     <div class="sm:col-span-8">
+                            <div class="relative overflow-x-auto">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6">
+                                                Time
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                Pulse
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                BP
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                HEP
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                UF
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                BFR
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                VP
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                TMP
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                C/temp
+                                            </th>
+                                            <th scope="col" class="px-6">
+                                                DFR
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="intra_line">
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                </div>     
+                
+                <div class="grid gap-4 sm:grid-cols-8 sm:gap-6 pt-8" id="dialysis_buttons">
+                     <div class="sm:col-span-8 mt-1">
+                        
+                         <button id="bt_intra_modal" data-modal-target="intra-modal" data-modal-toggle="intra-modal" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M12 18v-6M9 15h6"/></svg> 
+                            &nbsp;Add intradialysis record
+                        </button>
+                        
+                        <button id="bt_end_modal" data-modal-target="end-modal" data-modal-toggle="end-modal" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><rect x="9" y="9" width="6" height="6"></rect></svg>
+                            &nbsp;Discontinue dialysis
+                        </button>
+                     
+                        
+                     </div>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-8 sm:gap-6 pt-8 hidden" id="dialysis_download">
+                     <div class="sm:col-span-8 mt-1">
+                        
+                         <button id="bt_download_excel" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0,0,256,256"><g fill="#FFFFFF" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.12,5.12)"><path d="M28.875,0c-0.01953,0.00781 -0.04297,0.01953 -0.0625,0.03125l-28,5.3125c-0.47656,0.08984 -0.82031,0.51172 -0.8125,1v37.3125c-0.00781,0.48828 0.33594,0.91016 0.8125,1l28,5.3125c0.28906,0.05469 0.58984,-0.01953 0.82031,-0.20703c0.22656,-0.1875 0.36328,-0.46484 0.36719,-0.76172v-5h17c1.09375,0 2,-0.90625 2,-2v-34c0,-1.09375 -0.90625,-2 -2,-2h-17v-5c0.00391,-0.28906 -0.12109,-0.5625 -0.33594,-0.75391c-0.21484,-0.19141 -0.50391,-0.28125 -0.78906,-0.24609zM28,2.1875v4.34375c-0.13281,0.27734 -0.13281,0.59766 0,0.875v35.40625c-0.02734,0.13281 -0.02734,0.27344 0,0.40625v4.59375l-26,-4.96875v-35.6875zM30,8h17v34h-17v-5h4v-2h-4v-6h4v-2h-4v-5h4v-2h-4v-5h4v-2h-4zM36,13v2h8v-2zM6.6875,15.6875l5.46875,9.34375l-5.96875,9.34375h5l3.25,-6.03125c0.22656,-0.58203 0.375,-1.02734 0.4375,-1.3125h0.03125c0.12891,0.60938 0.25391,1.02344 0.375,1.25l3.25,6.09375h4.96875l-5.75,-9.4375l5.59375,-9.25h-4.6875l-2.96875,5.53125c-0.28516,0.72266 -0.48828,1.29297 -0.59375,1.65625h-0.03125c-0.16406,-0.60937 -0.35156,-1.15234 -0.5625,-1.59375l-2.6875,-5.59375zM36,20v2h8v-2zM36,27v2h8v-2zM36,35v2h8v-2z"></path></g></g></svg>
+                            &nbsp;Download Excel
+                            <!--<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" troke="#FFFFFF" width="25px" height="25px"><path d="M 28.875 0 C 28.855469 0.0078125 28.832031 0.0195313 28.8125 0.03125 L 0.8125 5.34375 C 0.335938 5.433594 -0.0078125 5.855469 0 6.34375 L 0 43.65625 C -0.0078125 44.144531 0.335938 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 29.101563 50.023438 29.402344 49.949219 29.632813 49.761719 C 29.859375 49.574219 29.996094 49.296875 30 49 L 30 44 L 47 44 C 48.09375 44 49 43.09375 49 42 L 49 8 C 49 6.90625 48.09375 6 47 6 L 30 6 L 30 1 C 30.003906 0.710938 29.878906 0.4375 29.664063 0.246094 C 29.449219 0.0546875 29.160156 -0.0351563 28.875 0 Z M 28 2.1875 L 28 6.53125 C 27.867188 6.808594 27.867188 7.128906 28 7.40625 L 28 42.8125 C 27.972656 42.945313 27.972656 43.085938 28 43.21875 L 28 47.8125 L 2 42.84375 L 2 7.15625 Z M 30 8 L 47 8 L 47 42 L 30 42 L 30 37 L 34 37 L 34 35 L 30 35 L 30 29 L 34 29 L 34 27 L 30 27 L 30 22 L 34 22 L 34 20 L 30 20 L 30 15 L 34 15 L 34 13 L 30 13 Z M 36 13 L 36 15 L 44 15 L 44 13 Z M 6.6875 15.6875 L 12.15625 25.03125 L 6.1875 34.375 L 11.1875 34.375 L 14.4375 28.34375 C 14.664063 27.761719 14.8125 27.316406 14.875 27.03125 L 14.90625 27.03125 C 15.035156 27.640625 15.160156 28.054688 15.28125 28.28125 L 18.53125 34.375 L 23.5 34.375 L 17.75 24.9375 L 23.34375 15.6875 L 18.65625 15.6875 L 15.6875 21.21875 C 15.402344 21.941406 15.199219 22.511719 15.09375 22.875 L 15.0625 22.875 C 14.898438 22.265625 14.710938 21.722656 14.5 21.28125 L 11.8125 15.6875 Z M 36 20 L 36 22 L 44 22 L 44 20 Z M 36 27 L 36 29 L 44 29 L 44 27 Z M 36 35 L 36 37 L 44 37 L 44 35 Z"/></svg> -->
+                        </button>
+                        
+                        <button id="bt_download_pdf" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                            <svg fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="25px" viewBox="0 0 31.256 31.256" xml:space="preserve" stroke="#ffffff" stroke-width="1"><g id="SVGRepo_bgCarrier" stroke-width="0"/><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M13.153,12.339c0.169,1.766,0.251,5.123-1.091,7.763c-0.109,0.213-0.217,0.42-0.325,0.618 c-2.334,0.716-4.799,2.072-5.21,3.565c-0.161,0.59-0.013,1.18,0.406,1.619c0.437,0.455,0.98,0.697,1.574,0.697 c1.437,0,2.931-1.371,4.563-4.187c0.592-0.146,4.003-0.562,4.72-0.554c1.967,2.011,3.559,2.988,4.859,2.988 c0.816,0,1.519-0.412,1.929-1.133c0.284-0.504,0.285-1.086,0.003-1.597c-0.816-1.474-3.994-2.074-5.9-2.211 c-0.164-0.179-0.33-0.365-0.5-0.558c-1.952-2.23-2.75-5.506-3.045-7.218c-0.037-0.392-0.079-0.718-0.114-0.957 c-0.126-0.906-0.695-1.042-1.023-1.042c-0.285,0-0.558,0.123-0.747,0.338c-0.305,0.346-0.259,0.72-0.229,0.97 C13.051,11.686,13.095,12.01,13.153,12.339z M8.591,24.6c0.187-0.207,0.552-0.512,1.105-0.842C9.18,24.318,8.8,24.549,8.591,24.6z M22.545,22.857c-0.167-0.021-0.485-0.105-0.995-0.418C21.99,22.582,22.325,22.73,22.545,22.857z M14.886,17.92 c0.365,0.741,0.771,1.416,1.217,2.021c-0.218,0.021-1.756,0.22-1.892,0.237C14.495,19.482,14.72,18.727,14.886,17.92z"/> <path d="M11.089,0L2.995,8.546v22.71h25.266V0H11.089z M10.375,3.594v3.787H6.788L10.375,3.594z M26.306,29.302H4.948V9.335h7.381 V1.954h13.979v27.348H26.306z"/> </g> </g> </g></svg>
+                            &nbsp;Download PDF
+                        </button>
+                     
+                        
+                     </div> 
+                </div>
+                
+                
+                
+                
+                
+                
+            </div>
+        </section>
+      </div> 
+      
+      
+      <!-- Main modal -->
+  
+          <div id="end-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-[100%] md:inset-0 h-[calc(100%-1rem)] max-h-full">
+              <div class="relative p-4 max-w-full max-h-full" style="width:75%">
+                  <!-- Modal content -->
+                  <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                      <!-- Modal header -->
+                     
+                      <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+                          
+                          <div class="w-full">
+                          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Discontinue dialysis
+                          </h3>
+                          </div>
+                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="end-modal" id="close_end">
+                              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                              </svg>
+                              <span class="sr-only">Close modal</span>
+                          </button>
+                      </div>
+                      <!-- Modal body -->
+                          <form action="#" id="dialysis_end" class="intra_options">
+                            <div class="grid gap-4 p-4 px-4 sm:grid-cols-8 sm:gap-6 rounded-xl shadow-sm " style="width:90%;margin:auto;" id="div_end">
+                                
+                                <div class="sm:col-span-2">
+                                    <label for="time_end" class="block text-sm font-medium text-gray-500 dark:text-white">Time:</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <input type="time" id="time_end" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
+                                    </div>
+                                </div>
+                                 <div class="sm:col-span-4">
+                                    <label for="nurse_ending" class="block text-sm font-medium text-gray-500 dark:text-white">Nurse discontinuing dialysis</label>
+                                    <input type="text" id="nurse_ending" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                              
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label for="finish_weight" class="block text-sm font-medium text-gray-500 dark:text-white">Finish weight</label>
+                                    <input type="number" id="finish_weight" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                              
+                                </div>
+                                
+                            </div>
+                          
+                       <!-- Modal footer -->
+                          <div style="width:100%;text-align:center; padding:20px;">
+                              <button id="bt_discontinue" type="button" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M12 18v-6M9 15h6"/></svg> 
+                                &nbsp;Discontinue
+                            </button>
+                              <!--<button data-modal-hide="end-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Discontinue</button>-->
+                          
+                          </div>
+                          </form>
+                          
+                 </div>
+            </div>
+        </div> 
+        
+        
+        
+        
+        <div id="intra-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-[100%] md:inset-0 h-[calc(100%-1rem)] max-h-full">
+              <div class="relative p-4 max-w-full max-h-full" style="width:75%">
+                  <!-- Modal content -->
+                  <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                      <!-- Modal header -->
+                     
+                      <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+                          
+                          <div class="w-full">
+                          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Add intradialysis record
+                          </h3>
+                          </div>
+                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="intra-modal" id="close_intra">
+                              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                              </svg>
+                              <span class="sr-only">Close modal</span>
+                          </button>
+                      </div>
+                      <!-- Modal body -->
+                <form action="#" id="frm_add" class="intra_options">
+                <div class="grid gap-4 p-4 px-4 sm:grid-cols-8 sm:gap-6 rounded-xl shadow-sm " id="div_add">
+                    
+                
+                     <div class="sm:col-span-1">
+                        <label for="session_hour" class="block text-sm font-medium text-gray-500 dark:text-white">Time:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <input type="time" id="time_intra" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
+                        </div>
+                    </div>
+                     <div class="sm:col-span-1">
+                        <label for="pulse_intra" class="block text-sm font-medium text-gray-900 dark:text-white">Pulse</label>
+                        <input type="number" name="pulse_intra" id="pulse_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="bp_intra" class="block text-sm font-medium text-gray-900 dark:text-white">BP</label>
+                        <input type="text" name="bp_intra" id="bp_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="hep_intra" class="block text-sm font-medium text-gray-900 dark:text-white">HEP rate</label>
+                        <input type="text" name="hep_intra" id="hep_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="uf_intra" class="block text-sm font-medium text-gray-900 dark:text-white">UF</label>
+                        <input type="text" name="uf_intra" id="uf_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="bfr_intra" class="block text-sm font-medium text-gray-900 dark:text-white">BFR</label>
+                        <input type="text" name="bfr_intra" id="bfr_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="vp_intra" class="block text-sm font-medium text-gray-900 dark:text-white">VP</label>
+                        <input type="text" name="vp_intra" id="vp_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="tmp_intra" class="block text-sm font-medium text-gray-900 dark:text-white">TMP</label>
+                        <input type="text" name="tmp_intra" id="tmp_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                     <div class="sm:col-span-2">
+                        <label for="cond_intra" class="block text-sm font-medium text-gray-900 dark:text-white">Cond/temp</label>
+                        <input type="text" name="cond_intra" id="cond_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="dfr_intra" class="block text-sm font-medium text-gray-900 dark:text-white">DFR</label>
+                        <input type="text" name="dfr_intra" id="dfr_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label for="fluids_intra" class="block text-sm font-medium text-gray-900 dark:text-white">Fluids/comments</label>
+                        <input type="text" name="fluids_intra" id="fluids_intra" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <br>
+                        <button id="bt_intra_add" type="button" class="px-2 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M12 18v-6M9 15h6"/></svg> 
+                            &nbsp;Add
+                        </button>
+                    </div>
+                
+                </div>
+                </form>
+                
+                 </div>
+            </div>
+        </div>
+      
+      <script src="../js/dialysis.js"></script>
+</body>
+</html>
+  
